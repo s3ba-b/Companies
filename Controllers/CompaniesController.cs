@@ -82,7 +82,8 @@ namespace TestBackendDeveloper.Controllers
             _context.Companies.Add(company);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCompany", new { id = company.Id }, company);
+            // return CreatedAtAction("GetCompany", new { id = company.Id }, company);
+            return CreatedAtAction(nameof(GetCompany), new { id = company.Id }, company);
         }
 
         // DELETE: api/Companies/5
