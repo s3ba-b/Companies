@@ -9,25 +9,25 @@ using TestBackendDeveloper.Models;
 
 namespace TestBackendDeveloper.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
-    public class CompaniesController : ControllerBase
+    public class CompanyController : ControllerBase
     {
         private readonly DatabaseContext _context;
 
-        public CompaniesController(DatabaseContext context)
+        public CompanyController(DatabaseContext context)
         {
             _context = context;
         }
 
-        // GET: api/Companies
-        [HttpGet]
+        // GET: company/list
+        [HttpGet("list")]
         public async Task<ActionResult<IEnumerable<Company>>> GetCompanies()
         {
             return await _context.Companies.ToListAsync();
         }
 
-        // GET: api/Companies/5
+        // GET: company/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Company>> GetCompany(long id)
         {
@@ -41,11 +41,11 @@ namespace TestBackendDeveloper.Controllers
             return company;
         }
 
-        // PUT: api/Companies/5
+        // PUT: company/update/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCompany(long id, Company company)
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> UpdateCompany(long id, Company company)
         {
             if (id != company.Id)
             {
@@ -73,12 +73,13 @@ namespace TestBackendDeveloper.Controllers
             return NoContent();
         }
 
-        // POST: api/Companies
+        // POST: company/create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<ActionResult<Company>> PostCompany(Company company)
         {
+
             _context.Companies.Add(company);
             await _context.SaveChangesAsync();
 
@@ -86,8 +87,15 @@ namespace TestBackendDeveloper.Controllers
             return CreatedAtAction(nameof(GetCompany), new { id = company.Id }, company);
         }
 
-        // DELETE: api/Companies/5
-        [HttpDelete("{id}")]
+        // POST: company/search
+        [HttpPost]
+        public async Task<ActionResult<IEnumerable<Company>>> SearchCompanies(Object input)
+        {
+            return await GetCompanies();
+        }
+
+        // DELETE: company/delete/5
+        [HttpDelete("delete/{id}")]
         public async Task<ActionResult<Company>> DeleteCompany(long id)
         {
             var company = await _context.Companies.FindAsync(id);
