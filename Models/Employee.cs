@@ -3,6 +3,6 @@ public class Employee {
     public string FirstName { get; set; }
     public string LastName { get; set; }
 
-    //  public long CompanyId { get; set; }
-    //  public Company Company { get; set; }
+    public long CompanyId { get; set; }
+    public Company Company { get; set; }
 }
