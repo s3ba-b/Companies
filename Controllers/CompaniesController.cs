@@ -47,7 +47,7 @@ namespace TestBackendDeveloper.Controllers
         [HttpPut("update/{id}")]
         public async Task<IActionResult> UpdateCompany(long id, Company company)
         {
-            if (id != company.Id)
+            if (id != company.CompanyId)
             {
                 return BadRequest();
             }
@@ -79,19 +79,32 @@ namespace TestBackendDeveloper.Controllers
         [HttpPost("create")]
         public async Task<ActionResult<Company>> PostCompany(Company company)
         {
-
+            if(company.Name == null || company.EstablishmentYear == null) {
+                return BadRequest();
+            }
+            
             _context.Companies.Add(company);
             await _context.SaveChangesAsync();
 
-            // return CreatedAtAction("GetCompany", new { id = company.Id }, company);
-            return CreatedAtAction(nameof(GetCompany), new { id = company.Id }, company);
+            return CreatedAtAction(nameof(GetCompany), new { id = company.CompanyId }, company);
         }
 
         // POST: company/search
-        [HttpPost]
-        public async Task<ActionResult<IEnumerable<Company>>> SearchCompanies(Object input)
-        {
-            return await GetCompanies();
+        [HttpPost("search")]
+        public async Task<ActionResult<IEnumerable<Company>>> SearchCompany(CompanySearchingParameters parameters) {
+
+            if(parameters.Keyword == null) {
+                parameters.Keyword = ""; 
+            }
+            
+            return await _context.Companies
+            .Where(x =>
+                x.Name.Equals(parameters.Keyword) ||
+                x.Employees.Any(e => e.FirstName.Contains(parameters.Keyword)) ||
+                x.Employees.Any(e => e.LastName.Contains(parameters.Keyword)) ||
+                x.Employees.Any(e => e.DateOfBirth >= parameters.EmployeeDateOfBirthFrom && e.DateOfBirth <= parameters.EmployeeDateOfBirthTo) ||
+                x.Employees.Any(e => e.JobTitle.Equals(parameters.EmployeeJobTitles)))
+            .ToListAsync();
         }
 
         // DELETE: company/delete/5
@@ -112,7 +125,7 @@ namespace TestBackendDeveloper.Controllers
 
         private bool CompanyExists(long id)
         {
-            return _context.Companies.Any(e => e.Id == id);
+            return _context.Companies.Any(e => e.CompanyId == id);
         }
     }
 }
