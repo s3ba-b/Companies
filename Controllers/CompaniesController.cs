@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Primitives;
 using TestBackendDeveloper.Models;
 
 namespace TestBackendDeveloper.Controllers
@@ -24,26 +25,52 @@ namespace TestBackendDeveloper.Controllers
         [HttpGet("list")]
         public async Task<ActionResult<IEnumerable<Company>>> GetCompanies()
         {
-            return await _context.Companies
-            .Include(x => x.Employees)
-            .ToListAsync();
+            var headerValues = Request.Headers.Values;
+            var encodedLogin = GetEncoded(headerValues.ElementAt(5).ToString());
+            var encodedPassword = GetEncoded(headerValues.ElementAt(6).ToString());
+            if (encodedLogin == "admin" && encodedPassword == "admin123")
+            {
+                return await _context.Companies
+                .Include(x => x.Employees)
+                .ToListAsync();
+            }
+            else
+            {
+                return BadRequest("Wrong credentials!");
+            }
+        }
+
+        private static string GetEncoded(string value)
+        {
+            return System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(value));
         }
 
         // GET: company/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Company>> GetCompany(long id)
         {
-            var company = await _context.Companies
+
+            var headerValues = Request.Headers.Values;
+            var encodedLogin = GetEncoded(headerValues.ElementAt(5).ToString());
+            var encodedPassword = GetEncoded(headerValues.ElementAt(6).ToString());
+            if (encodedLogin == "admin" && encodedPassword == "admin123")
+            {
+                var company = await _context.Companies
             .Where(x => x.CompanyId == id)
             .Include(x => x.Employees)
             .SingleOrDefaultAsync();
 
-            if (company == null)
-            {
-                return NotFound();
-            }
+                if (company == null)
+                {
+                    return NotFound();
+                }
 
-            return company;
+                return company;
+            }
+            else
+            {
+                return BadRequest("Wrong credentials!");
+            }
         }
 
         // PUT: company/update/5
@@ -52,30 +79,41 @@ namespace TestBackendDeveloper.Controllers
         [HttpPut("update/{id}")]
         public async Task<IActionResult> UpdateCompany(long id, Company company)
         {
-            if (id != company.CompanyId)
-            {
-                return BadRequest();
-            }
 
-            _context.Entry(company).State = EntityState.Modified;
-
-            try
+            var headerValues = Request.Headers.Values;
+            var encodedLogin = GetEncoded(headerValues.ElementAt(5).ToString());
+            var encodedPassword = GetEncoded(headerValues.ElementAt(6).ToString());
+            if (encodedLogin == "admin" && encodedPassword == "admin123")
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CompanyExists(id))
+                if (id != company.CompanyId)
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
-                else
-                {
-                    throw;
-                }
-            }
 
-            return NoContent();
+                _context.Entry(company).State = EntityState.Modified;
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CompanyExists(id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return NoContent();
+            }
+            else
+            {
+                return BadRequest("Wrong credentials!");
+            }
         }
 
         // POST: company/create
@@ -84,24 +122,37 @@ namespace TestBackendDeveloper.Controllers
         [HttpPost("create")]
         public async Task<ActionResult<Company>> PostCompany(Company company)
         {
-            if(company.Name == null) {
-                return BadRequest();
-            }
-            
-            _context.Companies.Add(company);
-            await _context.SaveChangesAsync();
+            var headerValues = Request.Headers.Values;
+            var encodedLogin = GetEncoded(headerValues.ElementAt(5).ToString());
+            var encodedPassword = GetEncoded(headerValues.ElementAt(6).ToString());
+            if (encodedLogin == "admin" && encodedPassword == "admin123")
+            {
+                if (company.Name == null)
+                {
+                    return BadRequest();
+                }
 
-            return CreatedAtAction(nameof(GetCompany), new { id = company.CompanyId }, company);
+                _context.Companies.Add(company);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction(nameof(GetCompany), new { id = company.CompanyId }, company);
+            }
+            else
+            {
+                return BadRequest("Wrong credentials!");
+            }
         }
 
         // POST: company/search
         [HttpPost("search")]
-        public async Task<ActionResult<IEnumerable<Company>>> SearchCompany(CompanySearchingParameters parameters) {
+        public async Task<ActionResult<IEnumerable<Company>>> SearchCompany(CompanySearchingParameters parameters)
+        {
 
-            if(parameters.Keyword == null) {
-                parameters.Keyword = ""; 
+            if (parameters.Keyword == null)
+            {
+                parameters.Keyword = "";
             }
-            
+
             return await _context.Companies
             .Include(x => x.Employees)
             .Where(x =>
@@ -118,16 +169,28 @@ namespace TestBackendDeveloper.Controllers
         [HttpDelete("delete/{id}")]
         public async Task<ActionResult<Company>> DeleteCompany(long id)
         {
-            var company = await _context.Companies.FindAsync(id);
-            if (company == null)
+
+            var headerValues = Request.Headers.Values;
+            var encodedLogin = GetEncoded(headerValues.ElementAt(5).ToString());
+            var encodedPassword = GetEncoded(headerValues.ElementAt(6).ToString());
+            if (encodedLogin == "admin" && encodedPassword == "admin123")
             {
-                return NotFound();
+
+                var company = await _context.Companies.FindAsync(id);
+                if (company == null)
+                {
+                    return NotFound();
+                }
+
+                _context.Companies.Remove(company);
+                await _context.SaveChangesAsync();
+
+                return company;
             }
-
-            _context.Companies.Remove(company);
-            await _context.SaveChangesAsync();
-
-            return company;
+            else
+            {
+                return BadRequest("Wrong credentials!");
+            }
         }
 
         private bool CompanyExists(long id)
