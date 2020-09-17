@@ -109,6 +109,7 @@ namespace TestBackendDeveloper.Controllers
                 x.Employees.Any(e => e.FirstName.Contains(parameters.Keyword)) ||
                 x.Employees.Any(e => e.LastName.Contains(parameters.Keyword)) ||
                 x.Employees.Any(e => e.DateOfBirth >= parameters.EmployeeDateOfBirthFrom && e.DateOfBirth <= parameters.EmployeeDateOfBirthTo) ||
+                // TODO: Not working - fix that
                 x.Employees.Any(e => e.JobTitle.Equals(parameters.EmployeeJobTitles)))
             .ToListAsync();
         }
