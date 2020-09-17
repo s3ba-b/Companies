@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TestBackendDeveloper.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class azuremigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

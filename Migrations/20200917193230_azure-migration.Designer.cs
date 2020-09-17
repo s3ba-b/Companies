@@ -10,8 +10,8 @@ using TestBackendDeveloper.Models;
 namespace TestBackendDeveloper.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20200917074251_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20200917193230_azure-migration")]
+    partial class azuremigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
