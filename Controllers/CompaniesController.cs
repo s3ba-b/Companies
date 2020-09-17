@@ -84,7 +84,7 @@ namespace TestBackendDeveloper.Controllers
         [HttpPost("create")]
         public async Task<ActionResult<Company>> PostCompany(Company company)
         {
-            if(company.Name == null || company.EstablishmentYear == null) {
+            if(company.Name == null) {
                 return BadRequest();
             }
             
