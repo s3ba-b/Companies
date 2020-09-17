@@ -20,8 +20,9 @@ namespace TestBackendDeveloper
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DatabaseContext>(opt => opt.UseInMemoryDatabase("Companies"));
-            // services.AddDbContext<DatabaseContext>(opt => opt.UseSqlServer("Companies"));
+            // services.AddDbContext<DatabaseContext>(opt => opt.UseInMemoryDatabase("Companies"));
+            services.AddDbContext<DatabaseContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("DatabaseContext")));
             
             services.AddControllers().AddNewtonsoftJson(options =>
             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
