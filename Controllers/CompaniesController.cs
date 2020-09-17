@@ -103,6 +103,7 @@ namespace TestBackendDeveloper.Controllers
             }
             
             return await _context.Companies
+            .Include(x => x.Employees)
             .Where(x =>
                 x.Name.Equals(parameters.Keyword) ||
                 x.Employees.Any(e => e.FirstName.Contains(parameters.Keyword)) ||
