@@ -4,6 +4,10 @@ A simple application written in C# (.NET Core) that stores information about com
 Just run the console app and go to https://localhost:5001/company/list
 # Supported HTTP queries
 Soon I will write about this here.
+# Use your own SQL Server database
+1. Modify the connection string
+2. add a migration with .NET CLI: dotnet ef migrations add MyMigration
+3. Update your SQL Server database: dotnet ef database update
 # Author
 Sebastian Bobrowski
 
