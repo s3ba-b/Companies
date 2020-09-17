@@ -5,8 +5,8 @@ Just run the console app and go to https://localhost:5001/company/list
 # Supported HTTP queries
 Soon I will write about this here.
 # Use your own SQL Server database
-Do this on your PC if you didn't before:
-dotnet tool install --global dotnet-ef
+Do this on your PC if you didn't ealier:<br>
+dotnet tool install --global dotnet-ef<br>
 dotnet add package Microsoft.EntityFrameworkCore.Design
 1. Modify the connection string
 2. Add a migration with .NET CLI: dotnet ef migrations add MyMigration
