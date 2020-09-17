@@ -24,14 +24,19 @@ namespace TestBackendDeveloper.Controllers
         [HttpGet("list")]
         public async Task<ActionResult<IEnumerable<Company>>> GetCompanies()
         {
-            return await _context.Companies.ToListAsync();
+            return await _context.Companies
+            .Include(x => x.Employees)
+            .ToListAsync();
         }
 
         // GET: company/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Company>> GetCompany(long id)
         {
-            var company = await _context.Companies.FindAsync(id);
+            var company = await _context.Companies
+            .Where(x => x.CompanyId == id)
+            .Include(x => x.Employees)
+            .SingleOrDefaultAsync();
 
             if (company == null)
             {
