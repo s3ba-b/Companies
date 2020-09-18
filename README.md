@@ -4,6 +4,7 @@ A simple application written in C# (.NET Core) that stores information about com
 Just run the console app and go to https://localhost:5001/company/list
 # Supported HTTP queries
 https://localhost:5001/company/create
+```json
 {
         "name": "First company",
         "establishmentYear": 1995,
@@ -16,19 +17,24 @@ https://localhost:5001/company/create
             }
         ]
     }
+```
 https://localhost:5001/company/search
+```json
 {
     "Keyword": null,
     "EmployeeDateOfBirthFrom": "1995-09-12T22:18:26.625",
     "EmployeeDateOfBirthTo": "2000-09-12T22:18:26.625",
     "EmployeeJobTitles": null
 }
+```
 https://localhost:5001/company/update/1
+```
 {
     "Name": "Updated",
     "EstablishmentYear": 2000,
     "Employees": []
 }
+```
 https://localhost:5001/company/delete/1
 # Author
 Sebastian Bobrowski
