@@ -14,7 +14,7 @@ namespace TestBackendDeveloper.Migrations
                     CompanyId = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
-                    EstablishmentYear = table.Column<int>(nullable: false)
+                    EstablishmentYear = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {

@@ -1,0 +1,141 @@
+{
+	"info": {
+		"_postman_id": "bdcfb8c6-17d6-4e2d-9d09-6fc26157e1e1",
+		"name": "Companies API request collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://localhost:5001/company/create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "login",
+						"value": "YWRtaW4=",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "YWRtaW4xMjM=",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"name\": \"Fifth company\",\r\n        \"establishmentYear\": 1995,\r\n        \"employees\": [\r\n            {\r\n                \"firstName\": \"Adam\",\r\n                \"lastName\": \"Gdyński\",\r\n                \"dateOfBirth\": \"1997-09-12T22:18:26.625Z\",\r\n                \"jobTitle\": 0,\r\n            }\r\n        ]\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/company/create",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"company",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:5001/company/update/1",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"companyId\": 1,\r\n    \"name\": \"First company\",\r\n    \"establishmentYear\": 1996,\r\n    \"employees\": [\r\n        {\r\n            \"employeeId\": 1,\r\n            \"firstName\": \"Name\",\r\n            \"lastName\": \"Surname\",\r\n            \"dateOfBirth\": \"1994-03-09T22:18:26.625\",\r\n            \"jobTitle\": 0,\r\n            \"companyId\": 1\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/company/update/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"company",
+						"update",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:5001/company/delete/7",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "login",
+						"value": "YWRtaW4=",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "YWRtaW4xMjM=",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5001/company/delete/7",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"company",
+						"delete",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:5001/company/search",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Keyword\": null,\r\n    \"EmployeeDateOfBirthFrom\": \"1995-09-12T22:18:26.625\",\r\n    \"EmployeeDateOfBirthTo\": \"2000-09-12T22:18:26.625\",\r\n    \"EmployeeJobTitles\": null\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/company/search",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"company",
+						"search"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

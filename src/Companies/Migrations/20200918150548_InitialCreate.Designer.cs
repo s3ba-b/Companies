@@ -10,8 +10,8 @@ using TestBackendDeveloper.Models;
 namespace TestBackendDeveloper.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20200917193230_azure-migration")]
-    partial class azuremigration
+    [Migration("20200918150548_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,7 +28,7 @@ namespace TestBackendDeveloper.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("EstablishmentYear")
+                    b.Property<int?>("EstablishmentYear")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
