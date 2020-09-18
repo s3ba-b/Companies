@@ -49,7 +49,18 @@
 			"name": "https://localhost:5001/company/update/1",
 			"request": {
 				"method": "PUT",
-				"header": [],
+				"header": [
+					{
+						"key": "login",
+						"value": "YWRtaW4=",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "YWRtaW4xMjM=",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"companyId\": 1,\r\n    \"name\": \"First company\",\r\n    \"establishmentYear\": 1996,\r\n    \"employees\": [\r\n        {\r\n            \"employeeId\": 1,\r\n            \"firstName\": \"Name\",\r\n            \"lastName\": \"Surname\",\r\n            \"dateOfBirth\": \"1994-03-09T22:18:26.625\",\r\n            \"jobTitle\": 0,\r\n            \"companyId\": 1\r\n        }\r\n    ]\r\n}",

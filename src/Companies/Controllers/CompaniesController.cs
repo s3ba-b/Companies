@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TestBackendDeveloper.Models;
-using Newtonsoft.Json;
 
 namespace TestBackendDeveloper.Controllers
 {
@@ -22,56 +21,7 @@ namespace TestBackendDeveloper.Controllers
             _context = context;
         }
 
-        // GET: company/list
-        // [HttpGet("list")]
-        // public async Task<ActionResult<IEnumerable<Company>>> GetAllCompanies()
-        // {
-        //     var headerValues = Request.Headers.Values;
-        //     var encodedLogin = GetEncoded(headerValues.ElementAt(5).ToString());
-        //     var encodedPassword = GetEncoded(headerValues.ElementAt(6).ToString());
-
-        //     if (encodedLogin == login && encodedPassword == password)
-        //     {
-        //         return await _context.Companies
-        //         .Include(x => x.Employees)
-        //         .ToListAsync();
-        //     }
-        //     else
-        //     {
-        //         return Unauthorized();
-        //     }
-        // }
-
         private static string GetEncoded(string value) => System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(value));
-
-        // GET: company/5
-        // [HttpGet("{id}")]
-        private async Task<ActionResult<Company>> GetCompanyById(long id)
-        {
-
-            var headerValues = Request.Headers.Values;
-            var encodedLogin = GetEncoded(headerValues.ElementAt(5).ToString());
-            var encodedPassword = GetEncoded(headerValues.ElementAt(6).ToString());
-
-            if (encodedLogin == login && encodedPassword == password)
-            {
-                var company = await _context.Companies
-            .Where(x => x.CompanyId.Equals(id))
-            .Include(x => x.Employees)
-            .SingleOrDefaultAsync();
-
-                if (company == null)
-                {
-                    return NotFound();
-                }
-
-                return company;
-            }
-            else
-            {
-                return Unauthorized();
-            }
-        }
 
         // PUT: company/update/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
@@ -92,7 +42,8 @@ namespace TestBackendDeveloper.Controllers
                 }
                 company.CompanyId = id;
 
-                if(company.Name == null || company.EstablishmentYear == null) {
+                if (company.Name == null || company.EstablishmentYear == null)
+                {
                     return BadRequest("You must provide Company Name and Establishment Year. List of employees is optional");
                 }
 
@@ -142,11 +93,12 @@ namespace TestBackendDeveloper.Controllers
                 _context.Companies.Add(company);
                 await _context.SaveChangesAsync();
 
-                var companyDTO = new CompanyDTO {
+                var companyDTO = new CompanyDTO
+                {
                     CompanyId = company.CompanyId
                 };
 
-                return CreatedAtAction(nameof(GetCompanyById), new { id = company.CompanyId }, companyDTO);
+                return Ok(companyDTO);
             }
             else
             {
@@ -169,7 +121,7 @@ namespace TestBackendDeveloper.Controllers
                     x.Employees.Any(e => e.DateOfBirth >= parameters.EmployeeDateOfBirthFrom) ||
                     x.Employees.Any(e => e.DateOfBirth <= parameters.EmployeeDateOfBirthTo) ||
                     x.Employees.Any(e => e.JobTitle.Equals(parameters.EmployeeJobTitles)))
-                    // TODO: more rules...
+                        // TODO: more rules...
                         .ToListAsync();
         }
 
