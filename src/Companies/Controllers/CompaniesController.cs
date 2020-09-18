@@ -8,6 +8,7 @@ using TestBackendDeveloper.Models;
 
 namespace TestBackendDeveloper.Controllers
 {
+    [Route("[controller]")]
     [ApiController]
     public class CompanyController : ControllerBase
     {
