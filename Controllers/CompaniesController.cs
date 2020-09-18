@@ -2,15 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Primitives;
 using TestBackendDeveloper.Models;
 
 namespace TestBackendDeveloper.Controllers
 {
-    [Route("[controller]")]
     [ApiController]
     public class CompanyController : ControllerBase
     {
@@ -28,6 +25,7 @@ namespace TestBackendDeveloper.Controllers
             var headerValues = Request.Headers.Values;
             var encodedLogin = GetEncoded(headerValues.ElementAt(5).ToString());
             var encodedPassword = GetEncoded(headerValues.ElementAt(6).ToString());
+
             if (encodedLogin == "admin" && encodedPassword == "admin123")
             {
                 return await _context.Companies
@@ -40,10 +38,7 @@ namespace TestBackendDeveloper.Controllers
             }
         }
 
-        private static string GetEncoded(string value)
-        {
-            return System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(value));
-        }
+        private static string GetEncoded(string value) => System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(value));
 
         // GET: company/5
         [HttpGet("{id}")]
@@ -53,10 +48,11 @@ namespace TestBackendDeveloper.Controllers
             var headerValues = Request.Headers.Values;
             var encodedLogin = GetEncoded(headerValues.ElementAt(5).ToString());
             var encodedPassword = GetEncoded(headerValues.ElementAt(6).ToString());
+
             if (encodedLogin == "admin" && encodedPassword == "admin123")
             {
                 var company = await _context.Companies
-            .Where(x => x.CompanyId == id)
+            .Where(x => x.CompanyId.Equals(id))
             .Include(x => x.Employees)
             .SingleOrDefaultAsync();
 
@@ -83,6 +79,7 @@ namespace TestBackendDeveloper.Controllers
             var headerValues = Request.Headers.Values;
             var encodedLogin = GetEncoded(headerValues.ElementAt(5).ToString());
             var encodedPassword = GetEncoded(headerValues.ElementAt(6).ToString());
+
             if (encodedLogin == "admin" && encodedPassword == "admin123")
             {
                 if (id != company.CompanyId)
@@ -125,6 +122,7 @@ namespace TestBackendDeveloper.Controllers
             var headerValues = Request.Headers.Values;
             var encodedLogin = GetEncoded(headerValues.ElementAt(5).ToString());
             var encodedPassword = GetEncoded(headerValues.ElementAt(6).ToString());
+            
             if (encodedLogin == "admin" && encodedPassword == "admin123")
             {
                 if (company.Name == null)
@@ -155,14 +153,14 @@ namespace TestBackendDeveloper.Controllers
 
             return await _context.Companies
             .Include(x => x.Employees)
-            .Where(x =>
-                x.Name.Equals(parameters.Keyword) ||
-                x.Employees.Any(e => e.FirstName.Contains(parameters.Keyword)) ||
-                x.Employees.Any(e => e.LastName.Contains(parameters.Keyword)) ||
-                x.Employees.Any(e => e.DateOfBirth >= parameters.EmployeeDateOfBirthFrom && e.DateOfBirth <= parameters.EmployeeDateOfBirthTo) ||
-                // TODO: Not working - fix that
-                x.Employees.Any(e => e.JobTitle.Equals(parameters.EmployeeJobTitles)))
-            .ToListAsync();
+                .Where(x =>
+                    x.Name.Equals(parameters.Keyword) ||
+                    x.Employees.Any(e => e.FirstName.Contains(parameters.Keyword)) ||
+                    x.Employees.Any(e => e.LastName.Contains(parameters.Keyword)) ||
+                    x.Employees.Any(e => e.DateOfBirth >= parameters.EmployeeDateOfBirthFrom && e.DateOfBirth <= parameters.EmployeeDateOfBirthTo) ||
+                    // TODO: Not working - fix that
+                    x.Employees.Any(e => e.JobTitle.Equals(parameters.EmployeeJobTitles)))
+                        .ToListAsync();
         }
 
         // DELETE: company/delete/5
@@ -173,10 +171,12 @@ namespace TestBackendDeveloper.Controllers
             var headerValues = Request.Headers.Values;
             var encodedLogin = GetEncoded(headerValues.ElementAt(5).ToString());
             var encodedPassword = GetEncoded(headerValues.ElementAt(6).ToString());
+
             if (encodedLogin == "admin" && encodedPassword == "admin123")
             {
 
                 var company = await _context.Companies.FindAsync(id);
+                
                 if (company == null)
                 {
                     return NotFound();
@@ -193,9 +193,6 @@ namespace TestBackendDeveloper.Controllers
             }
         }
 
-        private bool CompanyExists(long id)
-        {
-            return _context.Companies.Any(e => e.CompanyId == id);
-        }
+        private bool CompanyExists(long id) => _context.Companies.Any(e => e.CompanyId == id);
     }
 }

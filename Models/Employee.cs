@@ -13,6 +13,7 @@ namespace TestBackendDeveloper.Models
         public long CompanyId { get; set; }
         public Company Company { get; set; }
     }
+    
     public enum EmployeeJobTitle
     {
         Administrator,
