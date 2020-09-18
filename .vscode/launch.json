@@ -12,13 +12,13 @@
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/src/Companies/bin/Debug/netcoreapp3.1/TestBackendDeveloper.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/Companies/",
+            "cwd": "${workspaceFolder}/src/Companies",
             "stopAtEntry": false,
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
             },
             "sourceFileMap": {
-                "/Views": "${workspaceFolder}/src/Companies/Views"
+                "/Views": "${workspaceFolder}/Views"
             }
         },
         {
