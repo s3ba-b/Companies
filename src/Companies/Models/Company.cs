@@ -12,8 +12,8 @@ namespace TestBackendDeveloper.Models
 
         public List<Employee> Employees { get; set; } = new List<Employee>();
     }
-
-    // Data Transfer Object
+    
+    // DTO: Data Transfer Object
     public class CompanyDTO
     {
         public long CompanyId { get; set; }
