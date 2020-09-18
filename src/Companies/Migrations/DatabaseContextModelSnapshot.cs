@@ -26,7 +26,7 @@ namespace TestBackendDeveloper.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("EstablishmentYear")
+                    b.Property<int?>("EstablishmentYear")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")

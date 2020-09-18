@@ -5,8 +5,17 @@ namespace TestBackendDeveloper.Models
     public class Company
     {
         public long CompanyId { get; set; }
-        public string Name { get; set; }
-        public int EstablishmentYear { get; set; }
+        #nullable enable
+        public string? Name { get; set; }
+        #nullable enable
+        public int? EstablishmentYear { get; set; }
+
         public List<Employee> Employees { get; set; } = new List<Employee>();
+    }
+
+    // Data Transfer Object
+    public class CompanyDTO
+    {
+        public long CompanyId { get; set; }
     }
 }

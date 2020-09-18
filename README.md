@@ -36,6 +36,12 @@ https://localhost:5001/company/update/1
 }
 ```
 https://localhost:5001/company/delete/1
+# Apply own SQL Server instance database
+1. Update connection string
+2. Optional, on updating models: dotnet ef migrations add InitialCreate
+2. Run: dotnet ef database update
+# Authentication headers
+Import Companies API request collection.postman_collection.json to your Postman app. These requests contain authentication headers. 
 # Author
 Sebastian Bobrowski
 
