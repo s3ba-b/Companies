@@ -10,8 +10,8 @@ using TestBackendDeveloper.Models;
 namespace TestBackendDeveloper.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20200918150548_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20200918162403_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
