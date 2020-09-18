@@ -3,7 +3,33 @@ A simple application written in C# (.NET Core) that stores information about com
 # How to run the application
 Just run the console app and go to https://localhost:5001/company/list
 # Supported HTTP queries
-Soon I will write about this here.
+https://localhost:5001/company/create
+{
+        "name": "First company",
+        "establishmentYear": 1995,
+        "employees": [
+            {
+                "firstName": "Sebastian",
+                "lastName": "Bobrowski",
+                "dateOfBirth": "1997-09-12T22:18:26.625Z",
+                "jobTitle": 1,
+            }
+        ]
+    }
+https://localhost:5001/company/search
+{
+    "Keyword": null,
+    "EmployeeDateOfBirthFrom": "1995-09-12T22:18:26.625",
+    "EmployeeDateOfBirthTo": "2000-09-12T22:18:26.625",
+    "EmployeeJobTitles": null
+}
+https://localhost:5001/company/update/1
+{
+    "Name": "Updated",
+    "EstablishmentYear": 2000,
+    "Employees": []
+}
+https://localhost:5001/company/delete/1
 # Author
 Sebastian Bobrowski
 
